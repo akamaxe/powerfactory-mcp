@@ -1,0 +1,35 @@
+# PowerFactory MCP server configuration.
+# install.py copies it to <workspace>\powerfactory-mcp.toml with your machine's paths, and Claude Code finds it
+# through the PF_MCP_CONFIG variable. If you copy it by hand, replace <user> and check the paths.
+# After editing it: in Claude Code, /mcp → reconnect "powerfactory".
+# Paths go in single quotes (TOML literal strings) so backslashes need no escaping.
+
+[powerfactory]
+install_dir = 'C:\Program Files\DIgSILENT\PowerFactory 2024'
+python_api = 'C:\Program Files\DIgSILENT\PowerFactory 2024\Python\3.12'
+username = ""                 # empty = default user of the local database
+password = ""
+default_mode = "exclusive"    # exclusive: real database, changes persist and the GUI must be closed
+                              # parallel: in-memory copy (/inMemory) that coexists with the GUI; changes are lost
+parallel_instance = "CLAUDE"
+show_gui = false              # show the engine window on startup (view only)
+extra_args = ""               # extra command-line arguments for PowerFactory
+
+[paths]
+workspace = 'C:\Users\<user>\Documents\PowerFactory'
+results_dir = 'C:\Users\<user>\Documents\PowerFactory\results'
+backups_dir = 'C:\Users\<user>\Documents\PowerFactory\backups'
+logs_dir = 'C:\Users\<user>\Documents\PowerFactory\logs'
+# Folders where the server may read or write files (import/export .pfd, CSV, PNG).
+allowed = [
+    'C:\Users\<user>\Documents',
+    'C:\Users\<user>\Downloads',
+    'C:\Users\<user>\AppData\Local\Temp\claude',
+]
+
+[timeouts]
+startup_s = 240               # engine startup (exclusive ~20 s, parallel ~50 s)
+default_s = 300               # normal operations; on expiry the worker is restarted
+inline_wait_s = 90            # long studies: after this time they return a job_id
+job_max_s = 14400             # absolute cap for a job (4 h)
+idle_release_min = 20         # release PowerFactory after N minutes of inactivity (0 = never)

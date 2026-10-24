@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "powerfactory-mcp"
+version = "0.1.0"
+description = "MCP server for using DIgSILENT PowerFactory from Claude Code (tested with PowerFactory 2024 SP2)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "mcp==2.2.0",
+    "pywin32>=311",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "openpyxl",
+    "pymupdf<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+powerfactory-mcp = "powerfactory_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: needs PowerFactory and a license (slow)"]
+addopts = "-m 'not live'"
